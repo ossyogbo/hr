@@ -101,18 +101,18 @@
            <field name="model">hr.contract</field>
            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
            <field name="arch" type="xml">
+              <sheet position="before">
+                <header>
+                     <button name="signal_confirm" type="workflow" string="Confirm" 
+                             groups="base.group_hr_manager" states="draft" class="oe_highlight"/>
+                     <button name="signal_open" type="workflow" string="Trial Successful"
+                             groups="base.group_hr_manager" states="trial_ending" class="oe_highlight"/>
+                     <button name="signal_done" type="workflow" string="End Contract"
+                             groups="base.group_hr_manager" states="trial,trial_ending,open,contract_ending,pending_done" class="oe_highlight"/>
+                     <field name="state" widget="statusbar"/>
+                 </header>
+              </sheet>
                <data>
-                   <xpath expr="//div[@class='oe_title']" position="before">
-                       <header>
-                           <button name="signal_confirm" type="workflow" string="Confirm" 
-                                   groups="base.group_hr_manager" states="draft" class="oe_highlight"/>
-                           <button name="signal_open" type="workflow" string="Trial Successful"
-                                   groups="base.group_hr_manager" states="trial_ending" class="oe_highlight"/>
-                           <button name="signal_done" type="workflow" string="End Contract"
-                                   groups="base.group_hr_manager" states="trial,trial_ending,open,contract_ending,pending_done" class="oe_highlight"/>
-                           <field name="state" widget="statusbar"/>
-                       </header>
-                   </xpath>
                    <xpath expr="//field[@name='date_start']" position="replace">
                        <field name="date_start" class="oe_inline" on_change="onchange_start(date_start)"/> -
                    </xpath>
@@ -144,7 +144,7 @@
             </field>
         </record>
         
-        <record id="hr_hr_employee_view_form2" model="ir.ui.view">
+        <!-- <record id="hr_hr_employee_view_form2" model="ir.ui.view">
             <field name="name">hr.employee.view.form.contract_state</field>
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr_contract.hr_hr_employee_view_form2"/>
@@ -155,7 +155,7 @@
                     </xpath>
                 </data>
             </field>
-        </record>
+        </record> -->
         
     </data>
 </openerp>

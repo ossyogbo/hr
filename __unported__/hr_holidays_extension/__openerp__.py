@@ -59,5 +59,5 @@ Extended Capabilities for HR Holidays (Leaves)
     ],
     'test': [
     ],
-    'installable': False,
+    'installable': True,
 }

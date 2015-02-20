@@ -46,5 +46,5 @@ Track the HR status of employees.
     ],
     'test': [
     ],
-    'installable': False,
+    'installable': True,
 }

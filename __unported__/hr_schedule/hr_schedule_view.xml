@@ -59,12 +59,12 @@
             <field name="name">hr.schedule.form</field>
             <field name="model">hr.schedule</field>
             <field name="arch" type="xml">
-                <form string="Employee Schedule" version="7.0">
-                    <sheet>
-                        <header>
-                            <button name="signal_validate" type="workflow" states="draft" class="oe_highlight" string="Validate"/>
-                            <field name="state" widget="statusbar"/>
-                        </header>
+                <form string="Employee Schedule">
+                    <header>
+                        <button name="signal_validate" type="workflow" states="draft" class="oe_highlight" string="Validate"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet string="Employee Schedule">
                         <group col="4">
                             <field name="employee_id" on_change="onchange_employee_start_date(employee_id, date_start)"/>
                             <field name="template_id"/>
@@ -169,21 +169,23 @@
             <field name="name">hr.schedule.detail.form</field>
             <field name="model">hr.schedule.detail</field>
             <field name="arch" type="xml">
-                <form string="Schedule Detail" version="7.0">
+                <form string="Schedule Detail">
                     <header>
                         <button name="signal_validate" type="workflow" states="draft" class="oe_highlight" string="Validate"/>
                         <field name="state" widget="statusbar"/>
                     </header>
-                    <group>
-                        <field name="schedule_id"/>
-                        <field name="name"/>
-                        <field name="dayofweek"/>
-                        <field name="date_start"/>
-                        <field name="date_end"/>
-                    </group>
-                    <group string="Alerts" colspan="4" cols="5">
-                        <field name="alert_ids" nolabel="1"/>
-                    </group>
+                    <sheet string="Schedule Detail">
+                        <group>
+                            <field name="schedule_id"/>
+                            <field name="name"/>
+                            <field name="dayofweek"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                        <group string="Alerts" colspan="4" cols="5">
+                            <field name="alert_ids" nolabel="1"/>
+                        </group>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -227,14 +229,18 @@
             <field name="name">hr.schedule.request.form</field>
             <field name="model">hr.schedule.request</field>
             <field name="arch" type="xml">
-                <form string="Change Request" version="7.0">
+                <form string="Change Request">
                     <header>
                         <field name="state" widget="statusbar"/>
                     </header>
-                    <field name="employee_id"/>
-                    <field name="date"/>
-                    <field name="type"/>
-                    <field name="message"/>
+                    <sheet string="Change Request">
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="date"/>
+                            <field name="type"/>
+                            <field name="message"/>
+                        </group>
+                    </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers"/>
                         <field name="message_ids" widget="mail_thread"/>
@@ -298,20 +304,20 @@
             <field name="name">hr.schedule.alert.form</field>
             <field name="model">hr.schedule.alert</field>
             <field name="arch" type="xml">
-                <form string="Exception" version="7.0">
-                    <sheet>
+                <form string="Exception">
                     <header>
                         <field name="state" widget="statusbar"/>
                     </header>
-                    <group>
-                        <field name="name"/>
-                        <field name="rule_id"/>
-                        <field name="employee_id"/>
-                        <field name="department_id"/>
-                        <field name="severity"/>
-                        <field name="punch_id"/>
-                        <field name="sched_detail_id"/>
-                    </group>
+                    <sheet string="Exception">
+                        <group>
+                            <field name="name"/>
+                            <field name="rule_id"/>
+                            <field name="employee_id"/>
+                            <field name="department_id"/>
+                            <field name="severity"/>
+                            <field name="punch_id"/>
+                            <field name="sched_detail_id"/>
+                        </group>
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids" widget="mail_followers"/>
@@ -512,7 +518,13 @@
             <field name="arch" type="xml">
                 <data>
                     <xpath expr="//div[@name='button_box']" position="inside">
-                        <button name="%(act_hr_employee_2_hr_schedule)d" string="Schedule" type="action" groups="base.group_hr_user"/>
+                        <button name="%(act_hr_employee_2_hr_schedule)d" 
+                            class="oe_stat_button" 
+                            icon="fa-calendar" 
+                            type="action"
+                            groups="base.group_hr_user"
+                            string="Schedule">
+                        </button>
                     </xpath>
                 </data>
             </field>

@@ -7,22 +7,22 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
+                <sheet position="before">
+                    <header>
+                        <button name="signal_confirm" type="workflow" string="Confirm"
+                                attrs="{'invisible': [('status','!=','new')]}" groups="base.group_hr_manager" class="oe_highlight"/>
+                        <button name="signal_active" type="workflow" string="Finished Onboarding"
+                                attrs="{'invisible': [('status','!=','onboarding')]}" groups="base.group_hr_manager" class="oe_highlight"/>
+                        <!--<button name="%(action_set_inactive)d" type="action" string="Set Inactive"
+                                attrs="{'invisible': [('status','not in',['new', 'onboarding', 'active'])]}" groups="base.group_hr_manager" class="oe_highlight"/>-->
+                        <button name="signal_reactivate" type="object" string="Re-Activate"
+                                attrs="{'invisible': [('status','!=','inactive')]}" groups="base.group_hr_manager" class="oe_highlight"/>
+                        <button name="signal_confirm_reactivate" type="workflow" string="Confirm"
+                                attrs="{'invisible': [('status','!=','reactivated')]}" groups="base.group_hr_manager" class="oe_highlight"/>
+                        <field name="status" widget="statusbar"/>
+                    </header>
+                </sheet>
                 <data>
-                    <xpath expr="//form/sheet/field[@name='image_medium']" position="before">
-                        <header>
-                            <button name="signal_confirm" type="workflow" string="Confirm"
-                                    attrs="{'invisible': [('status','!=','new')]}" groups="base.group_hr_manager" class="oe_highlight"/>
-                            <button name="signal_active" type="workflow" string="Finished Onboarding"
-                                    attrs="{'invisible': [('status','!=','onboarding')]}" groups="base.group_hr_manager" class="oe_highlight"/>
-                            <!--<button name="%(action_set_inactive)d" type="action" string="Set Inactive"
-                                    attrs="{'invisible': [('status','not in',['new', 'onboarding', 'active'])]}" groups="base.group_hr_manager" class="oe_highlight"/>-->
-                            <button name="signal_reactivate" type="object" string="Re-Activate"
-                                    attrs="{'invisible': [('status','!=','inactive')]}" groups="base.group_hr_manager" class="oe_highlight"/>
-                            <button name="signal_confirm_reactivate" type="workflow" string="Confirm"
-                                    attrs="{'invisible': [('status','!=','reactivated')]}" groups="base.group_hr_manager" class="oe_highlight"/>
-                            <field name="status" widget="statusbar"/>
-                        </header>
-                    </xpath>
                     <xpath expr="//page[@string='HR Settings']" position="after">
                         <page string="Deactivation">
                             <group>
@@ -80,14 +80,14 @@
             <field name="name">hr.employee.termination.form</field>
             <field name="model">hr.employee.termination</field>
             <field name="arch" type="xml">
-                <form string="Employment Termination" version="7.0">
-                    <sheet>
-                        <header>
-                            <button name="signal_confirmed" type="workflow" states="draft" string="Confirm" class="oe_highlight"/>
-                            <button name="signal_done" type="workflow" states="confirm" string="Deactivate" class="oe_highlight"/>
-                            <button name="signal_cancel" type="workflow" states="confirm" string="Cancel" class="oe_highlight"/>
-                            <field name="state" widget="statusbar"/>
-                        </header>
+                <form string="Employment Termination">
+                    <header>
+                        <button name="signal_confirmed" type="workflow" states="draft" string="Confirm" class="oe_highlight"/>
+                        <button name="signal_done" type="workflow" states="confirm" string="Deactivate" class="oe_highlight"/>
+                        <button name="signal_cancel" type="workflow" states="confirm" string="Cancel" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet string="Employment Termination">
                         <group>
                             <group>
                                 <field name="employee_id"/>

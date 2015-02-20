@@ -20,36 +20,38 @@
             <field name="name">hr.contract.init.form</field>
             <field name="model">hr.contract.init</field>
             <field name="arch" type="xml">
-                <form string="Contract Initial Values" version="7.0">
+                <form string="Contract Initial Values">
                     <header>
                         <button name="signal_approve" type="workflow" states="draft" string="Approve" class="oe_highlight" />
                         <button name="signal_decline" type="workflow" states="draft,approve" string="Decline" class="oe_highlight" />
                         <button string="Reset to New" name="set_to_draft" states="decline" type="object" groups="hr_security.group_hr_director"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,approve" />
                     </header>
-                    <label for="name" class="oe_edit_only"/>
-                    <h1>
-                        <field name="name"/>
-                    </h1>
-                    <group>
+                    <sheet string="Contract Initial Values">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
                         <group>
-                            <field name="date"/>
-                            <field name="trial_period"/>
+                            <group>
+                                <field name="date"/>
+                                <field name="trial_period"/>
+                            </group>
+                            <group>
+                                <field name="struct_id"/>
+                            </group>
                         </group>
-                        <group>
-                            <field name="struct_id"/>
+                        <group string="Initial Wages">
+                            <field name="wage_ids" nolabel="1">
+                                <tree string="Initial Wages" editable="bottom">
+                                    <field name="category_ids" widget="many2many_tags"/>
+                                    <field name="job_id"/>
+                                    <field name="starting_wage"/>
+                                    <field name="is_default"/>
+                                </tree>
+                            </field>
                         </group>
-                    </group>
-                    <group string="Initial Wages">
-                        <field name="wage_ids" nolabel="1">
-                            <tree string="Initial Wages" editable="bottom">
-                                <field name="category_ids" widget="many2many_tags"/>
-                                <field name="job_id"/>
-                                <field name="starting_wage"/>
-                                <field name="is_default"/>
-                            </tree>
-                        </field>
-                    </group>
+                    </sheet>
                 </form>
             </field>
         </record>

@@ -45,5 +45,5 @@ Make Employee Records and Contracts Easier to Work With
     ],
     'test': [
     ],
-    'installable': False,
+    'installable': True,
 }

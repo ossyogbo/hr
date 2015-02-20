@@ -346,14 +346,14 @@ WHERE (date_start <= %s and %s <= date_end)
                 dEnd = dStart + relativedelta(days=+6)
                 res['value']['date_end'] = dEnd.strftime('%Y-%m-%d')
 
-        if edata['name']:
+        if edata and edata['name']:
             res['value']['name'] = edata['name']
             if dStart:
                 res['value']['name'] = res['value']['name'] + ': ' + \
                     dStart.strftime('%Y-%m-%d') + ' Wk ' + str(
                         dStart.isocalendar()[1])
 
-        if edata['contract_id']:
+        if edata and edata['contract_id']:
             cdata = self.pool.get('hr.contract').read(
                 cr, uid, edata['contract_id'][0], ['schedule_template_id'],
                 context=context

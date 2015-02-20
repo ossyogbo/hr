@@ -44,5 +44,5 @@ job will be attached to the employee record as well.
     ],
     'test': [
     ],
-    'installable': False,
+    'installable': True,
 }

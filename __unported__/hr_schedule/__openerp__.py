@@ -59,5 +59,5 @@ Easily create, manage, and track employee schedules.
     ],
     'test': [
     ],
-    'installable': False,
+    'installable': True,
 }
