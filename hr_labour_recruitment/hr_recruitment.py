@@ -51,7 +51,7 @@ class hr_applicant(models.Model):
     _name = 'hr.applicant'
     _inherit = 'hr.applicant'
 
-    @api.multi
+    @api.model
     def create(self, vals):
 
         job_id = vals.get('job_id', False)
@@ -97,7 +97,7 @@ class hr_contract(models.Model):
     # TODO Check if this is ok
     job_id = fields.Many2one(default=_get_job_from_applicant)
 
-    @api.multi
+    @api.model
     def create(self, vals):
 
         # If the contract is for an employee with a pre-existing contract for
@@ -152,17 +152,17 @@ class hr_recruitment_request(models.Model):
     _description = 'Request for recruitment of additional personnel'
     _inherit = ['mail.thread', 'ir.needaction_mixin']
     name = fields.Char('Description', size=64)
-    user_id = fields.Many2one(
+    user = fields.Many2one(
         'res.users',
         'Requesting User',
         required=True,
         default=lambda self: self.env.uid,
     )
-    department_id = fields.Many2one(
+    department = fields.Many2one(
         'hr.department',
         'Department',
     )
-    job_id = fields.Many2one(
+    job = fields.Many2one(
         'hr.job',
         'Job',
         required=True,
@@ -175,7 +175,7 @@ class hr_recruitment_request(models.Model):
         readonly=True,
     )
     max_number = fields.Integer(
-        related='job_id.max_employees',
+        related='job.max_employees',
         string="Maximum Number of Employees",
         readonly=True
     )
@@ -195,7 +195,7 @@ class hr_recruitment_request(models.Model):
         'State',
         readonly=True,
     )
-    _order = 'department_id, job_id'
+    _order = 'department, job'
     _track = {
         'state': {
             'hr_labour_recruitment.mt_alert_request_confirmed': (
@@ -209,21 +209,21 @@ class hr_recruitment_request(models.Model):
         },
     }
 
-    @api.depends('job_id')
+    @api.depends('job')
     def _no_of_employee(self):
-        job = self.job_id
+        job = self.job
         if job:
             self.current_number = job.no_of_employee
 
-    @api.onchange('job_id')
+    @api.onchange('job')
     def onchange_job(self):
-        job = self.job_id
+        job = self.job
         if job:
             if job.department_id:
-                self.department_id = job.department_id
+                self.department = job.department_id
             self.name = 'Personnel Request: ' + str(job.name)
 
-    @api.multi
+    @api.model
     def _needaction_domain_get(self):
         users_obj = self.env['res.users']
         domain = []
@@ -242,15 +242,15 @@ class hr_recruitment_request(models.Model):
     @api.multi
     def condition_exception(self):
         for req in self:
-            if (req.number + req.job_id.expected_employees >
-                    req.job_id.max_employees):
+            if (req.number + req.job.expected_employees >
+                    req.job.max_employees):
                 return True
         return False
 
     @api.multi
     def _state(self, state):
         for req in self:
-            job = req.job_id
+            job = req.job
             if state == 'recruitment':
                 job.write({'no_of_recruitment': req.number})
                 job.set_recruit()
@@ -284,7 +284,7 @@ class hr_recruitment_request(models.Model):
         return self._state_subscribe_users('recruitment')
 
     @api.multi
-    def state_done(self, cr, uid, ids, context=None):
+    def state_done(self):
         return self._state('done')
 
     @api.multi

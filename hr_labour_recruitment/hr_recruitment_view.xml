@@ -27,11 +27,11 @@
                     <filter name="draft" string="In Draft" domain="[('state','=','draft')]" help="Unconfirmed Requests"/>
                     <filter name="to_approve" string="To Approve" domain="[('state','in',['confirm','exception'])]" help="Confirmed Requests"/>
                     <filter name="to_complete" string="To Complete" domain="[('state','=','recruitment')]" help="Requests in Recruitment"/>
-                    <field name="job_id"/>
-                    <field name="department_id"/>
+                    <field name="job"/>
+                    <field name="department"/>
                     <group expand="0" string="Group By...">
-                        <filter string="Job" icon="terp-personal" domain="[]" context="{'group_by':'job_id'}"/>
-                        <filter string="Department" icon="terp-personal+" domain="[]" context="{'group_by':'department_id'}"/>
+                        <filter string="Job" icon="terp-personal" domain="[]" context="{'group_by':'job'}"/>
+                        <filter string="Department" icon="terp-personal+" domain="[]" context="{'group_by':'department'}"/>
                     </group>
                 </search>
             </field>
@@ -42,9 +42,9 @@
             <field name="model">hr.recruitment.request</field>
             <field name="arch" type="xml">
                 <tree string="Personnel Requests">
-                    <field name="job_id"/>
-                    <field name="department_id"/>
-                    <field name="user_id"/>
+                    <field name="job"/>
+                    <field name="department"/>
+                    <field name="user"/>
                     <field name="number"/>
                     <field name="state"/>
                 </tree>
@@ -66,13 +66,13 @@
                     </header>
                     <group>
                         <group>
-                            <field name="user_id"/>
-                            <field name="job_id"/>
+                            <field name="user"/>
+                            <field name="job"/>
                             <field name="number"/>
                         </group>
                         <group>
                             <field name="name"/>
-                            <field name="department_id"/>
+                            <field name="department"/>
                         </group>
                         <group>
                             <field name="current_number"/>
