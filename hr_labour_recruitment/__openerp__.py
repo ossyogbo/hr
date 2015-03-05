@@ -44,5 +44,5 @@ Recruitment of New Employees
     ],
     'test': [
     ],
-    'installable': False,
+    'installable': True,
 }
