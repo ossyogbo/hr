@@ -89,7 +89,7 @@ class hr_employee(orm.Model):
     def _default_country(self, cr, uid, context=None):
 
         cid = self.pool.get('res.country').search(
-            cr, uid, [('code', '=', 'ET')], context=context)
+            cr, uid, [('code', '=', 'US')], context=context)
         if cid:
             return cid[0]
 
