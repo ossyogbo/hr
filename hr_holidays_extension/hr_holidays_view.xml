@@ -22,7 +22,7 @@
 			<button string="Refuse" name="refuse" states="validate1" type="workflow" groups="base.group_hr_user"/>
 		    </button>
 		    <button name="reset" position="replace">
-			<button string="Reset to New" name="set_to_draft" states="refuse" type="object" groups="hr_holidays_extension.group_hr_leave"/>
+		      <!--<button string="Reset to New" name="set_to_draft" states="refuse" type="object" groups="hr_holidays_extension.group_hr_leave"/>-->
 		    </button>
 		    <field name="department_id" position="attributes">
 			<attribute name="readonly">1</attribute>
