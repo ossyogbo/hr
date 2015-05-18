@@ -121,7 +121,7 @@
                 <data>
                     <xpath expr="//button[@name='set_recruit']" position="replace"/>
                     <xpath expr="//button[@name='set_open']" position="replace"/>
-                    <xpath expr="//field[@name='no_of_recruitment']" position="after">
+                    <xpath expr="//field[@name='department_id']" position="after">
                         <field name="max_employees"/>
                         <field name="max_employees_fuzz"/>
                     </xpath>
