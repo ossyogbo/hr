@@ -140,9 +140,15 @@ class hr_holidays(orm.Model):
         holiday_obj = self.pool['hr.holidays.public']
         sched_tpl_obj = self.pool['hr.schedule.template']
         sched_detail_obj = self.pool['hr.schedule.detail']
-        result = {'value': {}}
+        result = {'value': {'department_id': False}}
 
-        if not no_days or not date_from or not employee_id:
+        if not employee_id:
+            return result
+
+        employee = ee_obj.browse(cr, uid, employee_id, context=context)
+        result['value'] = {'department_id': employee.department_id.id}
+        
+        if not no_days or not date_from:
             return result
 
         user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
@@ -152,7 +158,7 @@ class hr_holidays(orm.Model):
             local_tz = timezone('Africa/Addis_Ababa')
 
         dt = datetime.strptime(date_from, OE_DTFORMAT)
-        employee = ee_obj.browse(cr, uid, employee_id, context=context)
+        
         if holiday_status_id:
             hs_data = status_obj.read(
                 cr, uid, holiday_status_id,
