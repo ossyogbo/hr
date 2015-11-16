@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+#
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution
-#    This module copyright (C) 2010 - 2014 Savoir-faire Linux
-#    (<http://www.savoirfairelinux.com>).
+#    Authors: Adrien Peiffer
+#    Copyright (c) 2015 Acsone SA/NV (http://www.acsone.eu)
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,25 +20,4 @@
 #
 ##############################################################################
 
-{
-    'name': 'HR Employee First Name, Last Name',
-    'version': '8.0.0.0.2',
-    'author': "Savoir-faire Linux, "
-              "Fekete Mihai (Forest and Biomass Services Romania), "
-              "Odoo Community Association (OCA)",
-    'maintainer': 'Savoir-faire Linux',
-    'website': 'http://www.savoirfairelinux.com',
-    'license': 'AGPL-3',
-    'category': 'Human Resources',
-    'summary': 'Adds First Name to Employee',
-    'depends': [
-        'hr',
-        'partner_firstname',
-    ],
-    'data': [
-        'views/hr_view.xml',
-    ],
-    'demo': [],
-    'test': [],
-    'installable': True,
-}
+from . import hr_department

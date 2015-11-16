@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #
-#    Copyright (C) 2013 Savoir-faire Linux (<http://www.savoirfairelinux.com>).
+#    Copyright (C) 2015 Salton Massally (<smassally@idtlabs.sl>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -17,18 +17,20 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
+from dateutil.relativedelta import relativedelta
+from openerp import fields, models, api
 
-from openerp import fields, models
 
+class HrContract(models.Model):
+    _inherit = 'hr.contract'
 
-class Employee(models.Model):
-    _inherit = 'hr.employee'
-
-    skill_ids = fields.Many2many(
-        'hr.skill',
-        'skill_employee_rel',
-        'employee_id',
-        'skill_id',
-        'Skills',
-        domain="[('child_ids', '=', False)]",
-    )
+    @api.onchange('trial_date_start', 'type_id')
+    @api.multi
+    def onchange_trial_date_start(self):
+        self.ensure_one()
+        if self.trial_date_start and len(self.type_id):
+            res = self.type_id.trial_length
+            if res:
+                end_dt = fields.Date.from_string(
+                    self.trial_date_start) + relativedelta(days=res)
+                self.trial_date_end = fields.Date.to_string(end_dt)

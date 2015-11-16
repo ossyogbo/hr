@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ###############################################################################
 #
-#    Copyright (C) 2013 Savoir-faire Linux (<http://www.savoirfairelinux.com>).
+#    Copyright (C) 2015 Salton Massally (<smassally@idtlabs.sl>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -17,18 +17,12 @@
 #    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-
 from openerp import fields, models
 
 
-class Employee(models.Model):
-    _inherit = 'hr.employee'
+class HrContractType(models.Model):
+    _inherit = 'hr.contract.type'
 
-    skill_ids = fields.Many2many(
-        'hr.skill',
-        'skill_employee_rel',
-        'employee_id',
-        'skill_id',
-        'Skills',
-        domain="[('child_ids', '=', False)]",
+    trial_length = fields.Integer(
+        help="Default contract trial length in Days"
     )
