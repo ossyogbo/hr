@@ -42,7 +42,7 @@ Extended Capabilities for HR Holidays (Leaves)
       must be immediate superior of employee or manager of employee's
       department and have leave approval rights)
 """,
-    'author': "Michael Telahun Makonnen <mmakonnen@gmail.com>,Odoo Community Association (OCA)",
+    'author': 'Michael Telahun Makonnen <mmakonnen@gmail.com>',
     'website': 'http://miketelahun.wordpress.com',
     'license': 'AGPL-3',
     'depends': [
