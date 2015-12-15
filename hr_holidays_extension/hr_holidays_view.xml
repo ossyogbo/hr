@@ -110,6 +110,7 @@
 
         <template id="assets_backend" name="refreshable_m2o_field assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/hr_holidays_extension/static/src/css/hr_holidays_extension.css"/>
                 <script type="text/javascript" src="/hr_holidays_extension/static/src/js/view_form.js"></script>
             </xpath>
         </template>
