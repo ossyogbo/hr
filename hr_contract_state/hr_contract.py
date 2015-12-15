@@ -243,12 +243,14 @@ class hr_contract(orm.Model):
                 uid, 'hr.contract', contract.id, 'signal_open', cr
             )
 
-    def onchange_start(self, cr, uid, ids, date_start, context=None):
-        return {
-            'value': {
-                'trial_date_start': date_start,
-            },
-        }
+    def onchange_start(self, cr, uid, ids, date_start, trial_date_start, context=None):
+        if not trial_date_start:
+            return {
+                'value': {
+                    'trial_date_start': date_start,
+                },
+            }
+        return {}
 
     def state_trial(self, cr, uid, ids, context=None):
         self.write(cr, uid, ids, {'state': 'trial'}, context=context)

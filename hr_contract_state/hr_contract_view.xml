@@ -114,7 +114,7 @@
               </sheet>
                <data>
                    <xpath expr="//field[@name='date_start']" position="replace">
-                       <field name="date_start" class="oe_inline" on_change="onchange_start(date_start)"/> -
+                       <field name="date_start" class="oe_inline" on_change="onchange_start(date_start,trial_date_start)"/> -
                    </xpath>
                    <xpath expr="//field[@name='trial_date_end']" position="replace">
                        <field name="trial_date_end" class="oe_inline" attrs="{'required':[('trial_date_start','!=',False)]}"/>
