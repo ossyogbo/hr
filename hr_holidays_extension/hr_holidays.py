@@ -197,7 +197,8 @@ class hr_holidays(models.Model):
             ph_days = 0
             r_days = 0
             while count_days > 0:
-                public_holiday = holiday_obj.is_public_holiday(next_dt.date())
+                public_holiday = holiday_obj.is_public_holiday(next_dt.date(),
+                    leave.employee_id.id)
                 public_holiday = (public_holiday and ex_ph)
                 rest_day = (next_dt.weekday() in rest_days and ex_rd)
                 next_dt += timedelta(days=(1 if leave.number_of_days_temp
@@ -230,7 +231,8 @@ class hr_holidays(models.Model):
 
             return_date = dt_to + timedelta(seconds=1)
             while ((return_date.weekday() in rest_days and ex_rd) or
-                   (holiday_obj.is_public_holiday(return_date.date()) and
+                   (holiday_obj.is_public_holiday(return_date.date(),
+                                                  leave.employee_id.id) and
                     ex_ph)):
                 return_date += timedelta(days=1)
             leave.return_date = return_date.strftime('%B %d, %Y')
