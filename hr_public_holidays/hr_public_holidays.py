@@ -64,12 +64,16 @@ class hr_holidays(orm.Model):
         employee = self.pool['hr.employee'].browse(cr, uid, employee_id)
 
         holidays_filter = [('year', '=', dt.year)]
-        if not employee or not employee.address_id.country_id:
-            holidays_filter.append(('country_id', '=', False))
-        else:
+        if employee and employee.company_id and employee.company_id.country_id:
+            holidays_filter += ['|', ('country_id', '=',
+                                      employee.company_id.country_id.id),
+                                ('country_id', '=', False)]
+        elif employee and employee.address_id.country_id:
             holidays_filter += ['|', ('country_id', '=',
                                       employee.address_id.country_id.id),
                                 ('country_id', '=', False)]
+        else:
+            holidays_filter.append(('country_id', '=', False))
 
         ph_ids = self.search(cr, uid, holidays_filter,
                              context=context)
@@ -78,14 +82,20 @@ class hr_holidays(orm.Model):
             return False
 
         states_filter = [('holidays_id', 'in', ph_ids)]
-        if not employee or not employee.address_id.state_id:
-            states_filter.append(('state_ids', '=', False))
-        else:
+        if employee and employee.company_id and employee.company_id.state_id:
+            states_filter += ['|',
+                              ('state_ids', '=', False),
+                              ('state_ids.id', '=',
+                               employee.company_id.state_id.id)
+                              ]
+        elif employee and employee.address_id.state_id:
             states_filter += ['|',
                               ('state_ids', '=', False),
                               ('state_ids.id', '=',
                                employee.address_id.state_id.id)
                               ]
+        else:
+            holidays_filter.append(('state_ids', '=', False))
 
         hr_holiday_public_line_obj = self.pool['hr.holidays.public.line']
         holidays_line_ids = \
