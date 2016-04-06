@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <record id="hr_birthday_reminder_template" model="email.template">
+            <field name="name">Employee birthday reminder</field>
+            <field name="email_from" >${object.company_id.email|safe}</field>
+            <field name="subject">${ctx['employee'].name} Birthday Reminder (${ctx['birthday']})</field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="email_cc"></field>
+            <field name="lang">${object.lang}</field>
+            <field name="model_id" ref="hr.model_hr_employee"/>
+            <field name="body_html"><![CDATA[
+Hello ${object.name},
+
+${ctx['employee'].name} will have birthday on ${ctx['birthday']}.
+
+            ]]></field>
+        </record>
+
+    </data>
+</openerp>
