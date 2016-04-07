@@ -12,7 +12,6 @@ class HumanResourcesConfiguration(models.TransientModel):
 
     @api.multi
     def set_birthday_reminder_before(self):
-        print 'OMG'
         icp = self.env['ir.config_parameter']
         icp.set_param('birthday_reminder.before', self.birthday_reminder_before)
 
