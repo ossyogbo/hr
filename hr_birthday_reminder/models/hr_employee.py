@@ -10,6 +10,8 @@ class HrEmployee(models.Model):
 
     _inherit = 'hr.employee'
 
+    last_bd_reminder = fields.Integer('Last Birthday Reminder Sent')
+
     @api.model
     def birthday_reminder_cron(self):
         icp = self.env['ir.config_parameter']
@@ -22,11 +24,13 @@ class HrEmployee(models.Model):
                                   'hr_birthday_reminder_template')
         employees = self.search([]) 
         for emp in employees:
-            if not emp.birthday:
+            if not emp.birthday or (emp.last_bd_reminder and emp.last_bd_reminder == now.year):
                 continue
             bdt = fields.Date.from_string(emp.birthday).replace(year=now.year)
             if bdt.day == now.day and bdt.month == now.month:
                 for receiver in employees:
+                    if receiver.id == emp.id:
+                        continue
                     lang = receiver.user_id and receiver.user_id.lang \
                         or receiver.company_id.partner_id.lang
                     date_format = rl.search([('code', '=', lang)]).date_format or '%d/%m/%Y'
@@ -34,3 +38,4 @@ class HrEmployee(models.Model):
                         'employee': emp,
                         'birthday': bdt.strftime(date_format)
                     }).send_mail(receiver.id, force_send=True)
+                emp.write({'last_bd_reminder': now.year})
