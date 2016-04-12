@@ -134,7 +134,8 @@ class hr_holidays(models.Model):
                  'date_to', 'holiday_status_id', 'employee_id')
     def _compute_days(self):
         self._skip_compute_days = True
-        for leave in self.sudo():
+        self.sudo()
+        for leave in self:
             holiday_obj = leave.env['hr.holidays.public']
             sched_detail_obj = leave.env['hr.schedule.detail']
 
