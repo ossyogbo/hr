@@ -134,7 +134,6 @@ class hr_holidays(models.Model):
                  'date_to', 'holiday_status_id', 'employee_id')
     def _compute_days(self):
         self._skip_compute_days = True
-        self.sudo()
         for leave in self:
             holiday_obj = leave.env['hr.holidays.public']
             sched_detail_obj = leave.env['hr.schedule.detail']
@@ -143,9 +142,9 @@ class hr_holidays(models.Model):
                 dt = utc.localize(fields.Datetime.from_string(d))
                 dt = dt.astimezone(local_tz)
                 dt = dt.replace(hour=h, minute=m, second=s)
-                times = sched_detail_obj.scheduled_begin_end_times(
+                times = sched_detail_obj.sudo().scheduled_begin_end_times(
                     leave.employee_id.id,
-                    leave.employee_id.contract_id.id, dt)
+                    leave.sudo().employee_id.contract_id.id, dt)
                 if len(times) > 0:
                     return times[index1][index2]
                 else:
@@ -184,9 +183,9 @@ class hr_holidays(models.Model):
             rest_days = []
             schedule_template = leave.employee_id \
                 and leave.employee_id.contract_id \
-                and leave.employee_id.contract_id.schedule_template_id
+                and leave.sudo().employee_id.contract_id.schedule_template_id
             if (ex_rd and schedule_template):
-                rest_days = schedule_template \
+                rest_days = schedule_template.sudo() \
                     .get_rest_days(schedule_template.id)
 
             if leave.number_of_days_temp:
@@ -198,7 +197,7 @@ class hr_holidays(models.Model):
             ph_days = 0
             r_days = 0
             while count_days > 0:
-                public_holiday = holiday_obj.is_public_holiday(next_dt.date(),
+                public_holiday = holiday_obj.sudo().is_public_holiday(next_dt.date(),
                     leave.employee_id.id)
                 public_holiday = (public_holiday and ex_ph)
                 rest_day = (next_dt.weekday() in rest_days and ex_rd)
@@ -232,7 +231,7 @@ class hr_holidays(models.Model):
 
             return_date = dt_to + timedelta(seconds=1)
             while ((return_date.weekday() in rest_days and ex_rd) or
-                   (holiday_obj.is_public_holiday(return_date.date(),
+                   (holiday_obj.sudo().is_public_holiday(return_date.date(),
                                                   leave.employee_id.id) and
                     ex_ph)):
                 return_date += timedelta(days=1)
