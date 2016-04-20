@@ -115,5 +115,10 @@
         <field name="group_id" ref="base.group_hr_user"/>
     </record>
 
+    <!-- disable old workflow -->
+    <record model="workflow" id="hr_holidays.wkf_holidays">
+        <field name="on_create" eval="False" />
+    </record>
+
 </data>
 </openerp>

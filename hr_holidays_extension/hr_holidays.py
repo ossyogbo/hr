@@ -312,6 +312,16 @@ class hr_holidays(models.Model):
                     )
         return
 
+    @api.multi
+    def write(self, vals):
+        # dirty trick to avoid check if group = HR Officer
+        if vals.get('state') and vals['state'] not in ('draft', 'confirm', 'cancel') \
+                and self.env['res.users'].has_group('hr_holidays_extension.group_hr_leave'):
+            self.env.cr.execute('UPDATE hr_holidays SET state = %s WHERE id IN %s',
+                                (vals['state'], tuple([h.id for h in self])))
+            del vals['state']
+        return super(hr_holidays, self).write(vals)
+
 
 class hr_attendance(models.Model):
 
