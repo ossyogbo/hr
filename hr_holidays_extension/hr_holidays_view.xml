@@ -44,6 +44,7 @@
                     <field name="employee_id" position="attributes">
                         <attribute name="on_change"></attribute>
                         <attribute name="refresh_field">holiday_status_id</attribute>
+                        <attribute name="groups">base.group_hr_user,hr_holidays_extension.group_hr_leave</attribute>
                     </field>
                 </data>
             </field>
