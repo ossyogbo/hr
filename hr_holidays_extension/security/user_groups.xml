@@ -10,6 +10,10 @@
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
             <field name="comment">the user can approve leaves</field>
         </record>
+
+        <record id="base.group_hr_user" model="res.groups">
+            <field name="implied_ids" eval="[(4, ref('hr_holidays_extension.group_hr_leave'))]"/>
+        </record>
         
     </data>    
 </openerp>
