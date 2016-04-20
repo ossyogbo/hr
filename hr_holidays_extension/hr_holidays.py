@@ -313,14 +313,33 @@ class hr_holidays(models.Model):
         return
 
     @api.multi
+    def _approve_by_group_hr_leave(self, state):
+        if state and state not in ['draft', 'confirm', 'cancel'] and \
+                not self.env['res.users'].has_group('base.group_hr_manager') and \
+                self.env['res.users'].has_group('hr_holidays_extension.group_hr_leave'):
+            self.env.cr.execute('UPDATE hr_holidays SET state = %s WHERE id IN %s',
+                                (state, tuple([h.id for h in self])))
+            return True
+        return False
+
+    @api.multi
     def write(self, vals):
         # dirty trick to avoid check if group = HR Officer
-        if vals.get('state') and vals['state'] not in ('draft', 'confirm', 'cancel') \
-                and self.env['res.users'].has_group('hr_holidays_extension.group_hr_leave'):
-            self.env.cr.execute('UPDATE hr_holidays SET state = %s WHERE id IN %s',
-                                (vals['state'], tuple([h.id for h in self])))
+        if self._approve_by_group_hr_leave(vals.get('state')):
             del vals['state']
         return super(hr_holidays, self).write(vals)
+
+    @api.model
+    def _needaction_domain_get(self):
+        emp_obj = self.env['hr.employee']
+        emps = emp_obj.search([('parent_id.user_id', '=', self.env.uid)])
+        dom = ['&', ('state', '=', 'confirm'), ('employee_id', 'in', [e.id for e in emps])]
+        # if this user is a hr.manager, he should do second validations
+        dom = super(hr_holidays, self)._needaction_domain_get()
+        if not self.env['res.users'].has_group('base.group_hr_manager') and \
+                self.env['res.users'].has_group('hr_holidays_extension.group_hr_leave'):
+            dom = ['|'] + dom + [('state', '=', 'validate1')]
+        return dom
 
 
 class hr_attendance(models.Model):
