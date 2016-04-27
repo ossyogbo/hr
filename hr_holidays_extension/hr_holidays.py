@@ -184,7 +184,7 @@ class hr_holidays(models.Model):
             rest_days = []
             schedule_template = leave.employee_id \
                 and leave.employee_id.contract_id \
-                and leave.sudo().employee_id.contract_id.schedule_template_id
+                and leave.employee_id.sudo().contract_id.schedule_template_id
             if (ex_rd and schedule_template):
                 rest_days = schedule_template.sudo() \
                     .get_rest_days(schedule_template.id)
