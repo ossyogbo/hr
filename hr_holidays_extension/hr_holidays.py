@@ -96,6 +96,7 @@ class hr_holidays(models.Model):
     _defaults = {
         'employee_id': _employee_get,
         'number_of_days_temp': _days_get,
+        'state': 'draft',
     }
 
     _order = 'date_from asc, type desc'
@@ -340,6 +341,15 @@ class hr_holidays(models.Model):
                 self.env['res.users'].has_group('hr_holidays_extension.group_hr_leave'):
             dom = ['|'] + dom + [('state', '=', 'validate1')]
         return dom
+
+    def signal_workflow(self, cr, uid, ids, signal, context=None):
+        """Send given workflow signal and return a dict mapping ids to workflow results"""
+        from openerp import workflow
+        result = {}
+        for res_id in ids:
+            result[res_id] = workflow.trg_validate(uid, self._name, res_id, signal, cr)
+        # self.invalidate_cache(cr, uid, context=context) ?
+        return result
 
 
 class hr_attendance(models.Model):
