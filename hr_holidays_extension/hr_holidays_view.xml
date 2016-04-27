@@ -37,9 +37,11 @@
                     </xpath>
                     <field name="date_from" position="attributes">
                         <attribute name="on_change"></attribute>
+                        <attribute name="widget">date</attribute>
                     </field>
                     <field name="date_to" position="attributes">
                         <attribute name="on_change"></attribute>
+                        <attribute name="widget">date</attribute>
                     </field>
                     <field name="employee_id" position="attributes">
                         <attribute name="on_change"></attribute>
