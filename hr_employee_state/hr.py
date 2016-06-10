@@ -182,7 +182,6 @@ class hr_employee_termination(orm.Model):
             'hr.employee',
             'Employee',
             required=True,
-            readonly=True,
         ),
         'department_id': fields.related(
             'employee_id',
