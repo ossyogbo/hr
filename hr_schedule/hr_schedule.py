@@ -922,7 +922,7 @@ WHERE (date_start <= %s and %s <= date_end)
             data = self.pool.get('res.users').read(
                 cr, uid, uid, ['tz'], context=context)
             dt = datetime.strptime(strDay + ' 00:00:00', '%Y-%m-%d %H:%M:%S')
-            lcldt = timezone(data['tz']).localize(dt, is_dst=False)
+            lcldt = timezone(data['tz'] or 'UTC').localize(dt, is_dst=False)
             utcdt = lcldt.astimezone(utc)
             utcdtNextDay = utcdt + relativedelta(days=+1)
             strDayStart = utcdt.strftime('%Y-%m-%d %H:%M:%S')
@@ -945,7 +945,7 @@ WHERE (date_start <= %s and %s <= date_end)
             #
             user = self.pool.get('res.users').browse(
                 cr, uid, uid, context=context)
-            local_tz = timezone(user.tz)
+            local_tz = timezone(user.tz or 'UTC')
             dtStart = datetime.strptime(vals['date_start'], OE_DTFORMAT)
             locldtStart = local_tz.localize(dtStart, is_dst=False)
             utcdtStart = locldtStart.astimezone(utc)
@@ -1201,7 +1201,7 @@ class hr_schedule_alert(orm.Model):
         dtToday = datetime.strptime(
             datetime.now().strftime('%Y-%m-%d') + ' 00:00:00',
             '%Y-%m-%d %H:%M:%S')
-        lcldtToday = timezone(data['tz'] and data['tz'] or 'UTC').localize(
+        lcldtToday = timezone(data['tz'] or 'UTC').localize(
             dtToday, is_dst=False)
         utcdtToday = lcldtToday.astimezone(utc)
         utcdtYesterday = utcdtToday + relativedelta(days=-1)
@@ -1347,7 +1347,7 @@ class hr_schedule_alert(orm.Model):
         data = self.pool.get('res.users').read(
             cr, uid, uid, ['tz'], context=context)
         dt = datetime.strptime(strDay + ' 00:00:00', '%Y-%m-%d %H:%M:%S')
-        lcldt = timezone(data['tz']).localize(dt, is_dst=False)
+        lcldt = timezone(data['tz'] or 'UTC').localize(dt, is_dst=False)
         utcdt = lcldt.astimezone(utc)
         utcdtNextDay = utcdt + relativedelta(days=+1)
         strToday = utcdt.strftime('%Y-%m-%d %H:%M:%S')
@@ -1865,7 +1865,7 @@ class hr_attendance(orm.Model):
             data = self.pool.get('res.users').read(
                 cr, uid, uid, ['tz'], context=context)
             dt = datetime.strptime(strDay + ' 00:00:00', '%Y-%m-%d %H:%M:%S')
-            lcldt = timezone(data['tz']).localize(dt, is_dst=False)
+            lcldt = timezone(data['tz'] or 'UTC').localize(dt, is_dst=False)
             utcdt = lcldt.astimezone(utc)
             utcdtNextDay = utcdt + relativedelta(days=+1)
             strDayStart = utcdt.strftime('%Y-%m-%d %H:%M:%S')
