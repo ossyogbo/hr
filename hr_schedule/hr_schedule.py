@@ -415,7 +415,7 @@ WHERE (date_start <= %s and %s <= date_end)
 
             user = self.pool.get('res.users').browse(
                 cr, uid, uid, context=context)
-            local_tz = timezone(user.tz)
+            local_tz = timezone(user.tz or 'UTC')
             dCount = datetime.strptime(schedule.date_start, '%Y-%m-%d').date()
             dCountEnd = datetime.strptime(schedule.date_end, '%Y-%m-%d').date()
             dWeekStart = dCount
