@@ -51,7 +51,7 @@ class hr_holidays(models.Model):
 
     real_days = fields.Float('Total Days', digits=(16, 1),
                              compute='_compute_days')
-    rest_days = fields.Float('Weekends', digits=(16, 1),
+    rest_days = fields.Float('Rest days', digits=(16, 1),
                              compute='_compute_days')
     public_holiday_days = fields.Float('Public Holidays',
                                        digits=(16, 1),
