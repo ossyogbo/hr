@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <openerp>
     <data noupdate="0">
-        
+
         <!-- Leave Approval User Group -->
-        
+
         <record id="group_hr_leave" model="res.groups">
             <field name="name">Leave Approval</field>
             <field name="category_id" ref="base.module_category_human_resources"/>
@@ -11,9 +11,5 @@
             <field name="comment">the user can approve leaves</field>
         </record>
 
-        <record id="base.group_hr_user" model="res.groups">
-            <field name="implied_ids" eval="[(4, ref('hr_holidays_extension.group_hr_leave'))]"/>
-        </record>
-        
-    </data>    
+    </data>
 </openerp>
