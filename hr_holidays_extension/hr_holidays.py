@@ -147,7 +147,10 @@ class hr_holidays(models.Model):
                     leave.employee_id.id,
                     leave.sudo().employee_id.contract_id.id, dt)
                 if len(times) > 0:
-                    return times[index1][index2]
+                    dts = utc.localize(times[index1][index2])
+                    dts = dts.astimezone(local_tz)
+                    dts = dts.replace(hour=h, minute=m, second=s)
+                    return dts
                 else:
                     return dt
 
@@ -165,8 +168,8 @@ class hr_holidays(models.Model):
                 dt_to = _date_localize(leave.date_to, -1, 1,
                                        23, 59, 59)
                 leave.date_to = dt_to.astimezone(utc)
-                if self.date_from and self.number_of_days_temp:
-                    self.number_of_days_temp = 0
+                if leave.date_from and leave.number_of_days_temp:
+                    leave.number_of_days_temp = 0
                 next_dt = dt_to
 
             if ((not leave.date_from and not leave.number_of_days_temp) or
